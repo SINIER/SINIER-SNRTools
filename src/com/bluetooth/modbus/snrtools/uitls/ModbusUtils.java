@@ -139,4 +139,26 @@ public class ModbusUtils {
 		write.setContentMap(map);
 		AppUtil.modbusWrite( className,handler, write,TIME_OUT);
 	}
+	
+	/**
+	 * ¹Ì¼þÉý¼‰
+	 * @param className
+	 * @param handler
+	 */
+	public static void update(String className,Handler handler) {
+		CommandWrite write = new CommandWrite();
+		write.setDeviceId("01");
+		write.setCommandNo("10");
+		write.setStartAddressH("00");
+		write.setStartAddressL("48");
+		write.setCountH("00");
+		write.setCountL("01");
+		write.setByteCount("02");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("0", "00");
+		map.put("1", "05");
+		write.setContentMap(map);
+		AppUtil.modbusWrite( className,handler, write,TIME_OUT);
+	}
+	
 }

@@ -20,6 +20,8 @@
     <string name="string_exit_app">Is exit app？</string>
     <string name="string_zlql">Reset Total</string>
     <string name="string_ypp">Matched</string>
+    <string name="string_update">Success into the firmware upgrade mode, program exits！</string>
+    <string name="string_update_label">Firmware update</string>
     <string name="string_menu_msg1">Real-time monitor, parameter Settings</string>
     <string name="string_menu_msg2">Tel:025&#8211;58008686\nFax:025&#8211;86167199\nEmail:sinier@sinier.com.cn\nAddr:Nanjing Jiangning district Guli Science and technology industrial park XingGu road no. 6</string>
     <string name="string_menu1">New Features</string>

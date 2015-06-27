@@ -20,6 +20,8 @@
     <string name="string_exit_app">是否要退出程序？</string>
     <string name="string_zlql">總量清零</string>
     <string name="string_ypp">已匹配</string>
+    <string name="string_update">進入固件升級模式成功，程序退出！</string>
+    <string name="string_update_label">固件升级</string>
     <string name="string_menu_msg1">實時監視，參數設置</string>
     <string name="string_menu_msg2">電話 :025&#8211;58008686\n傳真 :025&#8211;86167199\n郵箱 :sinier@sinier.com.cn\n地址 :南京市江寧區谷裡科技產業園興谷路6號</string>
     <string name="string_menu1">新功能介紹</string>
