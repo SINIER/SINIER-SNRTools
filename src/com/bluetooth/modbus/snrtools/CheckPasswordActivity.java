@@ -159,7 +159,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 				editText2.setText("");
 				ModbusUtils.clearZL("总量清零", mHandler);
 			} else {
-				Toast.makeText(mContext, getResources().getString(R.string.string_error_msg6), Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, getResources().getString(R.string.string_error_msg5), Toast.LENGTH_SHORT).show();
 			}
 			break;
 
@@ -2139,29 +2139,29 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.valueIn = Integer.parseInt(param, 16);
 		switch ((Integer) parameter.valueIn) {
 		case 0:
-			parameter.value = "1/16" + getResources().getString(R.string.string_param8);
+			parameter.value = "3.125" + getResources().getString(R.string.string_param8);
 			break;
 		case 1:
-			parameter.value = "1/20" + getResources().getString(R.string.string_param8);
+			parameter.value = "2.5" + getResources().getString(R.string.string_param8);
 			break;
 		case 2:
-			parameter.value = "1/25" + getResources().getString(R.string.string_param8);
+			parameter.value = "2" + getResources().getString(R.string.string_param8);
 			break;
 		}
 		selectorList = new ArrayList<Selector>();
 
 		selector = new Selector();
-		selector.name = "1/16" + getResources().getString(R.string.string_param8);
+		selector.name = "3.125" + getResources().getString(R.string.string_param8);
 		selector.value = "0000";
 		selectorList.add(selector);
 
 		selector = new Selector();
-		selector.name = "1/20" + getResources().getString(R.string.string_param8);
+		selector.name = "2.5" + getResources().getString(R.string.string_param8);
 		selector.value = "0001";
 		selectorList.add(selector);
 
 		selector = new Selector();
-		selector.name = "1/25" + getResources().getString(R.string.string_param8);
+		selector.name = "2" + getResources().getString(R.string.string_param8);
 		selector.value = "0002";
 		selectorList.add(selector);
 
@@ -2535,22 +2535,95 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.valueIn = NumberBytes.hexStrToLong(param1 + param);
 		parameter.value = NumberBytes.hexStrToLong(param1 + param) + "";
 		mList.add(parameter);
-		/********************************** 参数62--转换器密码 **************************************/
+//		/********************************** 参数62--转换器密码 **************************************/
+//		parameter = new Parameter();
+//		parameter.address = NumberBytes.padLeft(Integer.toHexString(paramIndex), 4, '0');// parameter.address
+//																							// =
+//																							// "0046";
+//		param = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+//		param1 = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+//		System.out.println("参数" + paramCountLabel++ + "--转换器密码==" + NumberBytes.hexStrToLong(param1 + param));
+//		parameter.count = "0002";
+//		parameter.name = getResources().getString(R.string.string_param_label62);
+//		parameter.type = 3;
+//		parameter.maxValue = 999999;
+//		parameter.minValue = 0;
+//		parameter.valueIn = NumberBytes.hexStrToLong(param1 + param);
+//		parameter.value = NumberBytes.hexStrToLong(param1 + param) + "";
+//		Constans.PasswordLevel.LEVEL_4 = NumberBytes.hexStrToLong(param1 + param);
+//		mList.add(parameter);
+		/********************************** 参数62--模拟输出 **************************************/
 		parameter = new Parameter();
 		parameter.address = NumberBytes.padLeft(Integer.toHexString(paramIndex), 4, '0');// parameter.address
 																							// =
 																							// "0046";
 		param = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
-		param1 = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
-		System.out.println("参数" + paramCountLabel++ + "--转换器密码==" + NumberBytes.hexStrToLong(param1 + param));
-		parameter.count = "0002";
-		parameter.name = getResources().getString(R.string.string_param_label62);
-		parameter.type = 3;
-		parameter.maxValue = 999999;
-		parameter.minValue = 0;
-		parameter.valueIn = NumberBytes.hexStrToLong(param1 + param);
-		parameter.value = NumberBytes.hexStrToLong(param1 + param) + "";
-		Constans.PasswordLevel.LEVEL_4 = NumberBytes.hexStrToLong(param1 + param);
+		System.out.println("参数" + paramCountLabel++ + "--模拟输出==" + Long.parseLong(param, 16));
+		parameter.count = "0001";
+		parameter.name = getResources().getString(R.string.string_param_label62_1);
+		parameter.type = 1;
+		parameter.valueIn = Integer.parseInt(param, 16);
+		switch ((Integer) parameter.valueIn) {
+		case 0:
+			parameter.value = getResources().getString(R.string.string_param9);
+			break;
+		case 1:
+			parameter.value = "0.2m/s";
+			break;
+		case 2:
+			parameter.value = "0.5m/s";
+			break;
+		case 3:
+			parameter.value = "2m/s";
+			break;
+		case 4:
+			parameter.value = "5m/s";
+			break;
+		case 5:
+			parameter.value = "10m/s";
+			break;
+		case 6:
+			parameter.value = "15m/s";
+			break;
+		}
+		selectorList = new ArrayList<Selector>();
+
+		selector = new Selector();
+		selector.name = getResources().getString(R.string.string_param9);
+		selector.value = "0000";
+		selectorList.add(selector);
+
+		selector = new Selector();
+		selector.name = "0.2m/s";
+		selector.value = "0001";
+		selectorList.add(selector);
+
+		selector = new Selector();
+		selector.name = "0.5m/s";
+		selector.value = "0002";
+		selectorList.add(selector);
+
+		selector = new Selector();
+		selector.name = "2m/s";
+		selector.value = "0003";
+		selectorList.add(selector);
+
+		selector = new Selector();
+		selector.name = "5m/s";
+		selector.value = "0004";
+		selectorList.add(selector);
+		
+		selector = new Selector();
+		selector.name = "10m/s";
+		selector.value = "0005";
+		selectorList.add(selector);
+		
+		selector = new Selector();
+		selector.name = "15m/s";
+		selector.value = "0006";
+		selectorList.add(selector);
+
+		parameter.selectors = selectorList;
 		mList.add(parameter);
 
 		/********************************** 固件升级 **************************************/

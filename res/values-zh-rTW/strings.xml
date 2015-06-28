@@ -13,7 +13,6 @@
     <string name="string_search">搜索</string>
     <string name="string_ok">確定</string>
     <string name="string_cancel">取消</string>
-    <string name="string_research">重新搜索</string>
     <string name="string_bluetooth_search">去藍牙搜索</string>
     <string name="string_stop">停止</string>
     <string name="string_loading">加載中&#8230;</string>
@@ -144,6 +143,7 @@
     <string name="string_param_label60">電流滿度修正</string>
     <string name="string_param_label61">儀表編碼</string>
     <string name="string_param_label62">轉換器密碼</string>
+    <string name="string_param_label62_1">模拟输出</string>
     <string name="string_param1">正向</string>
     <string name="string_param2">反向</string>
     <string name="string_param3">允許</string>
@@ -151,6 +151,7 @@
     <string name="string_param5">脈沖</string>
     <string name="string_param6">頻率</string>
     <string name="string_param7">常亮</string>
-    <string name="string_param8">工頻</string>
+    <string name="string_param8">Hz</string>
+    <string name="string_param9">测量值</string>
 
 </resources>

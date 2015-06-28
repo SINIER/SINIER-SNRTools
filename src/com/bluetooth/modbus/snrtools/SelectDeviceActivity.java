@@ -519,7 +519,7 @@ public class SelectDeviceActivity extends BaseActivity
 					{
 						searchDevice();
 						showDialog(getResources().getString(R.string.string_tips_msg6),
-								getResources().getString(R.string.string_research),
+								getResources().getString(R.string.string_search),
 								getResources().getString(R.string.string_bluetooth_search), new MyAlertDialogListener()
 								{
 									@Override
