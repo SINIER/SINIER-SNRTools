@@ -1916,7 +1916,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 1.9999;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
 		mList.add(parameter);
 		/********************************** 参数36--流量修正值2 **************************************/
 		parameter = new Parameter();
@@ -1932,7 +1932,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 15;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
 		mList.add(parameter);
 		/********************************** 参数37--流量修正点3 **************************************/
 		parameter = new Parameter();
@@ -1948,7 +1948,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 1.9999;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
 		mList.add(parameter);
 		/********************************** 参数38--流量修正值3 **************************************/
 		parameter = new Parameter();
@@ -1964,7 +1964,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 15;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
 		mList.add(parameter);
 		/********************************** 参数39--流量修正点4 **************************************/
 		parameter = new Parameter();
@@ -1980,7 +1980,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 1.9999;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
 		mList.add(parameter);
 		/********************************** 参数40--流量修正值4 **************************************/
 		parameter = new Parameter();
@@ -1996,7 +1996,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 15;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
 		mList.add(parameter);
 		/********************************** 参数41--流量修正点5 **************************************/
 		parameter = new Parameter();
@@ -2012,7 +2012,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 1.9999;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
 		mList.add(parameter);
 		/********************************** 参数42--流量修正值5 **************************************/
 		parameter = new Parameter();
@@ -2028,7 +2028,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 15;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
 		mList.add(parameter);
 		/********************************** 参数43--流量修正点6 **************************************/
 		parameter = new Parameter();
@@ -2044,7 +2044,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 1.9999;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
 		mList.add(parameter);
 		/********************************** 参数44--流量修正值6 **************************************/
 		parameter = new Parameter();
@@ -2060,7 +2060,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 15;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
 		mList.add(parameter);
 		/********************************** 参数45--流量修正点7 **************************************/
 		parameter = new Parameter();
@@ -2076,7 +2076,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 1.9999;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
 		mList.add(parameter);
 		/********************************** 参数46--流量修正值7 **************************************/
 		parameter = new Parameter();
@@ -2092,7 +2092,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 15;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
 		mList.add(parameter);
 		/********************************** 参数47--流量修正点8 **************************************/
 		parameter = new Parameter();
@@ -2108,7 +2108,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 1.9999;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
 		mList.add(parameter);
 		/********************************** 参数48--流量修正值8 **************************************/
 		parameter = new Parameter();
@@ -2124,7 +2124,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.maxValue = 15;
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn) + "m/s";
+		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
 		mList.add(parameter);
 		/********************************** 参数49--励磁方式选择 **************************************/
 		parameter = new Parameter();
