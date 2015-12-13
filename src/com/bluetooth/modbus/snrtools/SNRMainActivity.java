@@ -39,14 +39,13 @@ import com.bluetooth.modbus.snrtools.view.NoFocuseTextview;
 
 public class SNRMainActivity extends BaseActivity {
 
-//	private Handler mHandler;
+	// private Handler mHandler;
 	private Thread mThread;
-	private TextView mParam1, mParam2, mParam3, mParam4, mParam5, mParam6,
-			mParam7;
+	private TextView mParam1, mParam2, mParam3, mParam4, mParam5, mParam6, mParam7;
 	private NoFocuseTextview mTvAlarm;
 	private View mViewMore;
 	private boolean isSetting = false;
-	/** 是否已经有命令发送*/
+	/** 是否已经有命令发送 */
 	private boolean hasSend = false;
 	private PopupWindow mPop;
 	private AbHorizontalProgressBar mAbProgressBar;
@@ -73,13 +72,13 @@ public class SNRMainActivity extends BaseActivity {
 	@Override
 	public void rightButtonOnClick(int id) {
 		switch (id) {
-			case R.id.btnRight1 :
-				isSetting = true;
-				showProgressDialog(getResources().getString(R.string.string_progressmsg1));
-				break;
-			case R.id.rlMenu :
-				 showMenu(findViewById(id));
-				break;
+		case R.id.btnRight1:
+			isSetting = true;
+			showProgressDialog(getResources().getString(R.string.string_progressmsg1));
+			break;
+		case R.id.rlMenu:
+			showMenu(findViewById(id));
+			break;
 		}
 	}
 
@@ -88,59 +87,57 @@ public class SNRMainActivity extends BaseActivity {
 
 			@Override
 			public void run() {
-				System.out.println("====主页面开始恢复==pause状态"+AppStaticVar.isSNRMainPause);
+				System.out.println("====主页面开始恢复==pause状态" + AppStaticVar.isSNRMainPause);
 				if (!AppStaticVar.isSNRMainPause) {
 					hasSend = true;
-					ModbusUtils.readStatus(mContext.getClass().getSimpleName(),
-							mInnerHandler);
+					ModbusUtils.readStatus(mContext.getClass().getSimpleName(), mInnerHandler);
 				}
 			}
 		});
 		mThread.start();
 	}
-	
-	public void onClick(View v){
-		switch(v.getId()){
-			case R.id.btnMore:
-				if(mViewMore.getVisibility() == View.VISIBLE){
-					mViewMore.setVisibility(View.GONE);
-					((Button)v).setText(getResources().getString(R.string.string_more));
-				}else{
-					mViewMore.setVisibility(View.VISIBLE);
-					((Button)v).setText(getResources().getString(R.string.string_shouqi));
-				}
-				break;
 
-			case R.id.textView1 :// 新功能
-				hideMenu();
-				showDialogOne(getResources().getString(R.string.string_menu_msg1), null);
-				break;
-			case R.id.textView2 :// 关于
-				hideMenu();
-				showDialogOne(getResources().getString(R.string.string_menu_msg2), null);
-				break;
-			case R.id.textView3 :// 版本更新
-				hideMenu();
-				downloadXml();
-				break;
-			case R.id.textView4 :// 退出
-				hideMenu();
-				exitApp();
-				break;
-			case R.id.textView5:// 清除缓存
-				hideMenu();
-				AbFileUtil.deleteFile(new File(AbFileUtil.getFileDownloadDir(mContext)));
-				AbFileUtil.deleteFile(new File(Constans.Directory.DOWNLOAD));
-				break;
-		
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btnMore:
+			if (mViewMore.getVisibility() == View.VISIBLE) {
+				mViewMore.setVisibility(View.GONE);
+				((Button) v).setText(getResources().getString(R.string.string_more));
+			} else {
+				mViewMore.setVisibility(View.VISIBLE);
+				((Button) v).setText(getResources().getString(R.string.string_shouqi));
+			}
+			break;
+
+		case R.id.textView1:// 新功能
+			hideMenu();
+			showDialogOne(getResources().getString(R.string.string_menu_msg1), null);
+			break;
+		case R.id.textView2:// 关于
+			hideMenu();
+			showDialogOne(getResources().getString(R.string.string_menu_msg2), null);
+			break;
+		case R.id.textView3:// 版本更新
+			hideMenu();
+			downloadXml();
+			break;
+		case R.id.textView4:// 退出
+			hideMenu();
+			exitApp();
+			break;
+		case R.id.textView5:// 清除缓存
+			hideMenu();
+			AbFileUtil.deleteFile(new File(AbFileUtil.getFileDownloadDir(mContext)));
+			AbFileUtil.deleteFile(new File(Constans.Directory.DOWNLOAD));
+			break;
+
 		}
 	}
-	
+
 	private void showMenu(View v) {
 		if (mPop == null) {
 			View contentView = View.inflate(this, R.layout.main_menu, null);
-			mPop = new PopupWindow(contentView, LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
+			mPop = new PopupWindow(contentView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			mPop.setBackgroundDrawable(new BitmapDrawable());
 			mPop.setOutsideTouchable(true);
 			mPop.setFocusable(true);
@@ -170,24 +167,24 @@ public class SNRMainActivity extends BaseActivity {
 					int eventType = xpp.getEventType();
 					while (eventType != XmlPullParser.END_DOCUMENT) {
 						switch (eventType) {
-							case XmlPullParser.START_TAG :
-								if ("version".equals(xpp.getName())) {
-									try {
-										version = Integer.parseInt(xpp.nextText());
-									} catch (NumberFormatException e1) {
-										e1.printStackTrace();
-										showToast(getResources().getString(R.string.string_error_msg1));
-									}
+						case XmlPullParser.START_TAG:
+							if ("version".equals(xpp.getName())) {
+								try {
+									version = Integer.parseInt(xpp.nextText());
+								} catch (NumberFormatException e1) {
+									e1.printStackTrace();
+									showToast(getResources().getString(R.string.string_error_msg1));
 								}
-								if ("url".equals(xpp.getName())) {
-									url = xpp.nextText();
-								}
-								if ("MD5".equals(xpp.getName())) {
-									md5 = xpp.nextText();
-								}
-								break;
-							default :
-								break;
+							}
+							if ("url".equals(xpp.getName())) {
+								url = xpp.nextText();
+							}
+							if ("MD5".equals(xpp.getName())) {
+								md5 = xpp.nextText();
+							}
+							break;
+						default:
+							break;
 						}
 						eventType = xpp.next();
 					}
@@ -206,10 +203,10 @@ public class SNRMainActivity extends BaseActivity {
 					String fileName = url.substring(url.lastIndexOf("/") + 1);
 					File apk = new File(Constans.Directory.DOWNLOAD + fileName);
 					if (md5.equals(AppUtil.getFileMD5(apk))) {
-//						Intent intent = new Intent(Intent.ACTION_VIEW);
-//						intent.setDataAndType(Uri.fromFile(apk),
-//								"application/vnd.android.package-archive");
-//						startActivity(intent);
+						// Intent intent = new Intent(Intent.ACTION_VIEW);
+						// intent.setDataAndType(Uri.fromFile(apk),
+						// "application/vnd.android.package-archive");
+						// startActivity(intent);
 						AbAppUtil.installApk(mContext, apk);
 						return;
 					}
@@ -223,10 +220,10 @@ public class SNRMainActivity extends BaseActivity {
 					}
 					mAbHttpUtil.get(url, new AbFileHttpResponseListener(apk) {
 						public void onSuccess(int statusCode, File file) {
-//							Intent intent = new Intent(Intent.ACTION_VIEW);
-//							intent.setDataAndType(Uri.fromFile(file),
-//									"application/vnd.android.package-archive");
-//							startActivity(intent);
+							// Intent intent = new Intent(Intent.ACTION_VIEW);
+							// intent.setDataAndType(Uri.fromFile(file),
+							// "application/vnd.android.package-archive");
+							// startActivity(intent);
 							AbAppUtil.installApk(mContext, file);
 						};
 
@@ -234,15 +231,12 @@ public class SNRMainActivity extends BaseActivity {
 						@Override
 						public void onStart() {
 							// 打开进度框
-							View v = LayoutInflater.from(mContext).inflate(
-									R.layout.progress_bar_horizontal, null,
-									false);
-							mAbProgressBar = (AbHorizontalProgressBar) v
-									.findViewById(R.id.horizontalProgressBar);
+							View v = LayoutInflater.from(mContext).inflate(R.layout.progress_bar_horizontal, null, false);
+							mAbProgressBar = (AbHorizontalProgressBar) v.findViewById(R.id.horizontalProgressBar);
 							numberText = (TextView) v.findViewById(R.id.numberText);
 							maxText = (TextView) v.findViewById(R.id.maxText);
 
-							maxText.setText(progress + "/"+ String.valueOf(max)+"%");
+							maxText.setText(progress + "/" + String.valueOf(max) + "%");
 							mAbProgressBar.setMax(max);
 							mAbProgressBar.setProgress(progress);
 
@@ -251,8 +245,7 @@ public class SNRMainActivity extends BaseActivity {
 
 						// 失败，调用
 						@Override
-						public void onFailure(int statusCode, String content,
-								Throwable error) {
+						public void onFailure(int statusCode, String content, Throwable error) {
 							showToast(error.getMessage());
 						}
 
@@ -264,10 +257,8 @@ public class SNRMainActivity extends BaseActivity {
 								showToast(getResources().getString(R.string.string_error_msg2));
 								return;
 							}
-							maxText.setText(bytesWritten / (totalSize / max)
-									+ "/" + max+"%");
-							mAbProgressBar
-									.setProgress((int) (bytesWritten / (totalSize / max)));
+							maxText.setText(bytesWritten / (totalSize / max) + "/" + max + "%");
+							mAbProgressBar.setProgress((int) (bytesWritten / (totalSize / max)));
 						}
 
 						// 完成后调用，失败，成功
@@ -290,14 +281,12 @@ public class SNRMainActivity extends BaseActivity {
 			@Override
 			public void onStart() {
 				// 打开进度框
-				View v = LayoutInflater.from(mContext).inflate(
-						R.layout.progress_bar_horizontal, null, false);
-				mAbProgressBar = (AbHorizontalProgressBar) v
-						.findViewById(R.id.horizontalProgressBar);
+				View v = LayoutInflater.from(mContext).inflate(R.layout.progress_bar_horizontal, null, false);
+				mAbProgressBar = (AbHorizontalProgressBar) v.findViewById(R.id.horizontalProgressBar);
 				numberText = (TextView) v.findViewById(R.id.numberText);
 				maxText = (TextView) v.findViewById(R.id.maxText);
 
-				maxText.setText(progress + "/" + String.valueOf(max)+"%");
+				maxText.setText(progress + "/" + String.valueOf(max) + "%");
 				mAbProgressBar.setMax(max);
 				mAbProgressBar.setProgress(progress);
 
@@ -306,7 +295,7 @@ public class SNRMainActivity extends BaseActivity {
 
 			// 失败，调用
 			@Override
-			public void onFailure(int statusCode, String content,Throwable error) {
+			public void onFailure(int statusCode, String content, Throwable error) {
 				showToast(error.getMessage());
 			}
 
@@ -318,7 +307,7 @@ public class SNRMainActivity extends BaseActivity {
 					showToast(getResources().getString(R.string.string_error_msg2));
 					return;
 				}
-				maxText.setText(bytesWritten / (totalSize / max) + "/" + max+"%");
+				maxText.setText(bytesWritten / (totalSize / max) + "/" + max + "%");
 				mAbProgressBar.setProgress((int) (bytesWritten / (totalSize / max)));
 			}
 
@@ -333,7 +322,6 @@ public class SNRMainActivity extends BaseActivity {
 		});
 	}
 
-
 	private void initUI() {
 		mParam1 = (TextView) findViewById(R.id.param1);
 		mParam2 = (TextView) findViewById(R.id.param2);
@@ -345,8 +333,7 @@ public class SNRMainActivity extends BaseActivity {
 		mViewMore = findViewById(R.id.llMore);
 		mTvAlarm = (NoFocuseTextview) findViewById(R.id.tvAlarm);
 		mTvAlarm.setVisibility(View.GONE);
-		mTvAlarm.startAnimation(AnimationUtils.loadAnimation(mContext,
-				R.anim.anim_alpha));
+		mTvAlarm.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_alpha));
 	}
 
 	private void hasAlarm(String s) {
@@ -415,99 +402,92 @@ public class SNRMainActivity extends BaseActivity {
 		}
 		int paramIndex = 0;
 		// 瞬时流量浮点值
-		String ssllL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String ssllH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String ssllL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String ssllH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("瞬时流量==" + NumberBytes.hexStrToFloat(ssllH + ssllL));
 		// 瞬时流速浮点值
-		String sslsL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String sslsH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String sslsL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String sslsH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("瞬时流速==" + NumberBytes.hexStrToFloat(sslsH + sslsL));
 		String sslsT = NumberBytes.hexStrToFloat(sslsH + sslsL) + " m/s";
 		mParam2.setText(sslsT);
 		// 流量百分比浮点值
-		String llbfbL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String llbfbH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		System.out.println("流量百分比=="
-				+ NumberBytes.hexStrToFloat(llbfbH + llbfbL));
-		String llbfbT = NumberBytes.hexStrToFloat(llbfbH + llbfbL) + " %";
+		String llbfbL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String llbfbH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		System.out.println("流量百分比==" + NumberBytes.hexStrToFloat(llbfbH + llbfbL));
+		String llbfbT = NumberBytes.scaleFloat(NumberBytes.hexStrToFloat(llbfbH + llbfbL), 3) + " %";
 		mParam3.setText(llbfbT);
 		// 流体电导比浮点值
-		String ltddbL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String ltddbH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		System.out.println("流体电导比=="
-				+ NumberBytes.hexStrToFloat(ltddbH + ltddbL));
+		String ltddbL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String ltddbH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		System.out.println("流体电导比==" + NumberBytes.hexStrToFloat(ltddbH + ltddbL));
 		String ltddbT = NumberBytes.hexStrToFloat(ltddbH + ltddbL) + " %";
 		mParam4.setText(ltddbT);
 		// 正向累积数值整数值
-		String zxljintL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String zxljintH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String zxljintL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String zxljintH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		long zxljLong = Long.parseLong(zxljintH + zxljintL, 16);
-		System.out.println("正向累积数值整数值=="
-				+ Long.parseLong(zxljintH + zxljintL, 16));
+		System.out.println("正向累积数值整数值==" + Long.parseLong(zxljintH + zxljintL, 16));
 		// 正向累积数值小数值
-		String zxljfloatL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String zxljfloatH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		System.out.println("正向累积数值小数值=="
-				+ NumberBytes.hexStrToFloat(zxljfloatH + zxljfloatL));
-		float zxljFloat = NumberBytes.hexStrToFloat(zxljfloatH
-				+ zxljfloatL);
+		String zxljfloatL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String zxljfloatH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		System.out.println("正向累积数值小数值==" + NumberBytes.hexStrToFloat(zxljfloatH + zxljfloatL));
+		float zxljFloat = NumberBytes.hexStrToFloat(zxljfloatH + zxljfloatL);
 		// 反向累积数值整数值
-		String fxljintL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String fxljintH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		System.out.println("反向累积数值整数值=="
-				+ Long.parseLong(fxljintH + fxljintL, 16));
+		String fxljintL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String fxljintH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		System.out.println("反向累积数值整数值==" + Long.parseLong(fxljintH + fxljintL, 16));
 		long fxljLong = Long.parseLong(fxljintH + fxljintL, 16);
 		// 反向累积数值小数值
-		String fxljfloatL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String fxljfloatH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		System.out.println("反向累积数值小数值=="
-				+ NumberBytes.hexStrToFloat(fxljfloatH + fxljfloatL));
-		float fxljFloat = NumberBytes.hexStrToFloat(fxljfloatH+ fxljfloatL);
+		String fxljfloatL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String fxljfloatH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		System.out.println("反向累积数值小数值==" + NumberBytes.hexStrToFloat(fxljfloatH + fxljfloatL));
+		float fxljFloat = NumberBytes.hexStrToFloat(fxljfloatH + fxljfloatL);
 
 		// 正反向累积差值整数值
-		String zfljintL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String zfljintH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		System.out.println("正反向累积差值整数值=="
-				+ Long.parseLong(zfljintH + zfljintL, 16));
+		String zfljintL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String zfljintH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		System.out.println("正反向累积差值整数值==" + Long.parseLong(zfljintH + zfljintL, 16));
 		long zfljLong = Long.parseLong(zfljintH + zfljintL, 16);
 		// 正反向累积差值小数值
-		String zfljfloatL = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		String zfljfloatH = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
-		System.out.println("正反向累积差值小数值=="
-				+ NumberBytes.hexStrToFloat(zfljfloatH + zfljfloatL));
-		float zfljFloat = NumberBytes.hexStrToFloat(zfljfloatH+ zfljfloatL);
+		String zfljfloatL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		String zfljfloatH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		System.out.println("正反向累积差值小数值==" + NumberBytes.hexStrToFloat(zfljfloatH + zfljfloatL));
+		float zfljFloat = NumberBytes.hexStrToFloat(zfljfloatH + zfljfloatL);
 
-		String sslldw = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String sslldw = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("瞬时流量单位==" + sslldw);
-		String ssllT = NumberBytes.hexStrToFloat(ssllH + ssllL) + " "
-				+ getSsllDw(sslldw);
+		String ssllT = NumberBytes.scaleFloat(NumberBytes.hexStrToFloat(ssllH + ssllL), 3) + " " + getSsllDw(sslldw);
 		mParam1.setText(ssllT);
 		// 正向，反向累积单位
-		String ljdw = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String ljdw = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("正向，反向累积单位==" + ljdw);
 		ZFLJDW zfljdw = getZFDw(ljdw);
-		if(zfljdw == null){
+		if (zfljdw == null) {
 			zfljdw = new ZFLJDW("", 3);
 		}
-		
-//		String zxljT = zxljIntString
-//				+ zxljFloatString.substring(zxljFloatString.indexOf(".")) + " "
-//				+ getZFDw(ljdw);
-		String zxljT = zxljLong + (zfljdw.point==0?"":String.format("%."+zfljdw.point+"f", zxljFloat).substring(String.format("%."+zfljdw.point+"f", zxljFloat).indexOf(".")))
+
+		// String zxljT = zxljIntString
+		// + zxljFloatString.substring(zxljFloatString.indexOf(".")) + " "
+		// + getZFDw(ljdw);
+		String zxljT = zxljLong
+				+ (zfljdw.point == 0 ? "" : String.format("%." + zfljdw.point + "f", zxljFloat).substring(String.format("%." + zfljdw.point + "f", zxljFloat).indexOf(".")))
 				+ zfljdw.dw;
 		mParam5.setText(zxljT);
-		String fxljt = fxljLong + (zfljdw.point==0?"":String.format("%."+zfljdw.point+"f", fxljFloat).substring(String.format("%."+zfljdw.point+"f", fxljFloat).indexOf(".")))
+		String fxljt = fxljLong
+				+ (zfljdw.point == 0 ? "" : String.format("%." + zfljdw.point + "f", fxljFloat).substring(String.format("%." + zfljdw.point + "f", fxljFloat).indexOf(".")))
 				+ zfljdw.dw;
-//		String fxljt = fxljIntString
-//				+ fxljFloatString.substring(fxljFloatString.indexOf(".")) + " "
-//				+ getZFDw(ljdw);
+		// String fxljt = fxljIntString
+		// + fxljFloatString.substring(fxljFloatString.indexOf(".")) + " "
+		// + getZFDw(ljdw);
 		mParam6.setText(fxljt);
 
-		String zfljt = zfljLong + (zfljdw.point==0?"":String.format("%."+zfljdw.point+"f", zfljFloat).substring(String.format("%."+zfljdw.point+"f", zfljFloat).indexOf(".")))
+		String zfljt = zfljLong
+				+ (zfljdw.point == 0 ? "" : String.format("%." + zfljdw.point + "f", zfljFloat).substring(String.format("%." + zfljdw.point + "f", zfljFloat).indexOf(".")))
 				+ zfljdw.dw;
-//		String zfljt = zfljIntString
-//				+ zfljFloatString.substring(zfljFloatString.indexOf(".")) + " "
-//				+ getZFDw(ljdw);
+		// String zfljt = zfljIntString
+		// + zfljFloatString.substring(zfljFloatString.indexOf(".")) + " "
+		// + getZFDw(ljdw);
 		mParam7.setText(zfljt);
 
 		// mParam7.setText(String.format(
@@ -519,7 +499,7 @@ public class SNRMainActivity extends BaseActivity {
 		// + " " + getZFDw(ljdw));
 
 		// 流量上限报警
-		String llsxbj = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String llsxbj = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("流量上限报警==" + llsxbj);
 		if (Long.parseLong(llsxbj, 16) == 1) {
 			hasAlarm(getResources().getString(R.string.string_alarm_llsx));
@@ -527,7 +507,7 @@ public class SNRMainActivity extends BaseActivity {
 			hasNoAlarm(getResources().getString(R.string.string_alarm_llsx));
 		}
 		// 流量下限报警
-		String llxxbj = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String llxxbj = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("流量下限报警==" + llxxbj);
 		if (Long.parseLong(llxxbj, 16) == 1) {
 			hasAlarm(getResources().getString(R.string.string_alarm_llxx));
@@ -535,7 +515,7 @@ public class SNRMainActivity extends BaseActivity {
 			hasNoAlarm(getResources().getString(R.string.string_alarm_llxx));
 		}
 		// 励磁异常报警
-		String lcbj = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String lcbj = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("励磁异常报警==" + lcbj);
 		if (Long.parseLong(lcbj, 16) == 1) {
 			hasAlarm(getResources().getString(R.string.string_alarm_lcyc));
@@ -543,7 +523,7 @@ public class SNRMainActivity extends BaseActivity {
 			hasNoAlarm(getResources().getString(R.string.string_alarm_lcyc));
 		}
 		// 空管报警
-		String kgbj = msg.substring(6+4*paramIndex++, 6+4*paramIndex);
+		String kgbj = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("空管报警==" + kgbj);
 		if (Long.parseLong(kgbj, 16) == 1) {
 			hasAlarm(getResources().getString(R.string.string_alarm_kgbj));
@@ -552,63 +532,80 @@ public class SNRMainActivity extends BaseActivity {
 		}
 
 	}
-	
+
 	@Override
-	public void handleMessage(Activity activity, Message msg, String name)
-	{
+	public void handleMessage(Activity activity, Message msg, String name) {
 		super.handleMessage(activity, msg, name);
 
 		switch (msg.what) {
-			case Constans.CONTACT_START :
-				System.out.println(name+"开始读取数据=====");
-				break;
-			case Constans.NO_DEVICE_CONNECTED :
-				System.out.println(name+"连接失败=====");
-				hasSend = false;
-				if (AppStaticVar.isSNRMainPause ) {
-					AppStaticVar.mObservable.notifyObservers();
-				} else {
-					showConnectDevice();
-				}
-				break;
-			case Constans.DEVICE_RETURN_MSG :
-				System.out.println(name+"收到数据=====" + msg.obj.toString());
-				hasSend = false;
-				dealReturnMsg(msg.obj.toString());
-				if (AppStaticVar.isSNRMainPause ) {
-					AppStaticVar.mObservable.notifyObservers();
-				} else {
-					startReadParam();
-				}
-				break;
-			case Constans.CONNECT_IS_CLOSED :
-				System.out.println(name+"连接关闭=====");
-				hasSend = false;
+		case Constans.CONTACT_START:
+			System.out.println(name + "开始读取数据=====");
+			break;
+		case Constans.NO_DEVICE_CONNECTED:
+			System.out.println(name + "连接失败=====");
+			hasSend = false;
+			if (AppStaticVar.isSNRMainPause) {
+				AppStaticVar.mObservable.notifyObservers();
+			} else {
 				showConnectDevice();
-			case Constans.ERROR_START :
-				System.out.println(name+"接收数据错误=====");
-				hasSend = false;
-				if (AppStaticVar.isSNRMainPause ) {
-					AppStaticVar.mObservable.notifyObservers();
-				} else {
-					startReadParam();
-				}
-				break;
-			case Constans.TIME_OUT :
-				System.out.println(name+"连接超时=====");
-				hasSend = false;
-				if (mThread != null && !mThread.isInterrupted()) {
-					mThread.interrupt();
-				}
-				if(!AppStaticVar.isSNRMainPause ){
-					showToast(getResources().getString(R.string.string_error_msg3));
-					startReadParam();
-				}else{
-					AppStaticVar.mObservable.notifyObservers();
-				}
-				break;
+			}
+			break;
+		case Constans.DEVICE_RETURN_MSG:
+			System.out.println(name + "收到数据=====" + msg.obj.toString());
+			hasSend = false;
+			dealReturnMsg(msg.obj.toString());
+			if (AppStaticVar.isSNRMainPause) {
+				AppStaticVar.mObservable.notifyObservers();
+			} else {
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						startReadParam();
+					}
+				}, 100);
+			}
+			break;
+		case Constans.CONNECT_IS_CLOSED:
+			System.out.println(name + "连接关闭=====");
+			hasSend = false;
+			showConnectDevice();
+		case Constans.ERROR_START:
+			System.out.println(name + "接收数据错误=====");
+			hasSend = false;
+			if (AppStaticVar.isSNRMainPause) {
+				AppStaticVar.mObservable.notifyObservers();
+			} else {
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						startReadParam();
+					}
+				}, 100);
+			}
+			break;
+		case Constans.TIME_OUT:
+			System.out.println(name + "连接超时=====");
+			hasSend = false;
+			if (mThread != null && !mThread.isInterrupted()) {
+				mThread.interrupt();
+			}
+			if (!AppStaticVar.isSNRMainPause) {
+				showToast(getResources().getString(R.string.string_error_msg3));
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						startReadParam();
+					}
+				}, 100);
+			} else {
+				AppStaticVar.mObservable.notifyObservers();
+			}
+			break;
 		}
-	
+
 	}
 
 	private void initHandler() {
@@ -617,14 +614,20 @@ public class SNRMainActivity extends BaseActivity {
 
 	@Override
 	public void reconnectSuccss() {
-		startReadParam();
+		new Handler().postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				startReadParam();
+			}
+		}, 100);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				startReadParam();

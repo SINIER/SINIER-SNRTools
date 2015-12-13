@@ -1,5 +1,7 @@
 package com.bluetooth.modbus.snrtools.uitls;
 
+import java.math.BigDecimal;
+
 /**
  * 对数字和字节进行转换。<br>
  * 基础知识：<br>
@@ -37,7 +39,7 @@ public class NumberBytes {
 		str = str + oriStr;
 		return str;
 	}
-	
+
 	/**
 	 * 将一个2位字节数组转换为char字符。<br>
 	 * 注意，函数中不会对字节数组长度进行判断，请自行保证传入参数的正确性。
@@ -197,7 +199,7 @@ public class NumberBytes {
 		}
 		return result;
 	}
-	
+
 	// 将十六进制字符串转换为Long
 	public static long hexStrToLong(String str) {
 		long result = 0;
@@ -206,5 +208,18 @@ public class NumberBytes {
 		} catch (NumberFormatException e) {
 		}
 		return result;
+	}
+
+	/**
+	 * 四舍五入，保留几位位小数
+	 * @param f
+	 * @param count 保留几位
+	 * @return
+	 */
+	public static float scaleFloat(float f,int count) {
+		BigDecimal b = new BigDecimal(f);
+		float f1 = b.setScale(count, BigDecimal.ROUND_HALF_UP).floatValue();
+		// b.setScale(2, BigDecimal.ROUND_HALF_UP) 表明四舍五入，保留两位小数
+		return f1;
 	}
 }
