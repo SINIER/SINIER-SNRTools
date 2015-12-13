@@ -140,7 +140,7 @@
     <string name="string_param_label58">Empty Pipe Zero Trimming</string>
     <string name="string_param_label59">0mA Trimming</string>
     <string name="string_param_label60">20mA Trimming</string>
-    <string name="string_param_label61">Electronic Serial No.</string>
+    <string name="string_param_label61">Instrument Serial Num</string>
     <string name="string_param_label62">Converter Password</string>
     <string name="string_param_label62_1">Sim Output</string>
     <string name="string_param1">Forward</string>
