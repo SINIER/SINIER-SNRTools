@@ -83,18 +83,20 @@ public class SNRMainActivity extends BaseActivity {
 	}
 
 	private void startReadParam() {
-		mThread = new Thread(new Runnable() {
+		if (mThread == null || !mThread.isAlive()) {
+			mThread = new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				System.out.println("====主页面开始恢复==pause状态" + AppStaticVar.isSNRMainPause);
-				if (!AppStaticVar.isSNRMainPause) {
-					hasSend = true;
-					ModbusUtils.readStatus(mContext.getClass().getSimpleName(), mInnerHandler);
+				@Override
+				public void run() {
+					System.out.println("====主页面开始恢复==pause状态" + AppStaticVar.isSNRMainPause);
+					if (!AppStaticVar.isSNRMainPause) {
+						hasSend = true;
+						ModbusUtils.readStatus(mContext.getClass().getSimpleName(), mInnerHandler);
+					}
 				}
-			}
-		});
-		mThread.start();
+			});
+			mThread.start();
+		}
 	}
 
 	public void onClick(View v) {
