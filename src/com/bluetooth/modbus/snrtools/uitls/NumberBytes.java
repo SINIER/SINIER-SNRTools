@@ -222,4 +222,28 @@ public class NumberBytes {
 		// b.setScale(2, BigDecimal.ROUND_HALF_UP) 表明四舍五入，保留两位小数
 		return f1;
 	}
+	
+	/**
+	 * 保证小数位数的字符串
+	 * @param f
+	 * @param count 保留几位
+	 * @return
+	 */
+	public static String scaleString(String str,int count) {
+		String s = str;
+		if(s!=null && s.contains(".")){
+			switch(s.substring(s.lastIndexOf(".")+1).length()){
+			case 0:
+				s += "000";
+				break;
+			case 1:
+				s += "00";
+				break;
+			case 2:
+				s += "0";
+				break;
+			}
+		}
+		return s;
+	}
 }

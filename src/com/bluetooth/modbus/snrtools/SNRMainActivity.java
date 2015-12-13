@@ -409,13 +409,13 @@ public class SNRMainActivity extends BaseActivity {
 		String sslsL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		String sslsH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("瞬时流速==" + NumberBytes.hexStrToFloat(sslsH + sslsL));
-		String sslsT = NumberBytes.hexStrToFloat(sslsH + sslsL) + " m/s";
+		String sslsT = NumberBytes.scaleString(NumberBytes.scaleFloat(NumberBytes.hexStrToFloat(sslsH + sslsL), 3) + "", 3) + " m/s";
 		mParam2.setText(sslsT);
 		// 流量百分比浮点值
 		String llbfbL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		String llbfbH = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("流量百分比==" + NumberBytes.hexStrToFloat(llbfbH + llbfbL));
-		String llbfbT = NumberBytes.scaleFloat(NumberBytes.hexStrToFloat(llbfbH + llbfbL), 3) + " %";
+		String llbfbT = NumberBytes.scaleFloat(NumberBytes.hexStrToFloat(llbfbH + llbfbL), 1) + " %";
 		mParam3.setText(llbfbT);
 		// 流体电导比浮点值
 		String ltddbL = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
@@ -457,7 +457,7 @@ public class SNRMainActivity extends BaseActivity {
 
 		String sslldw = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
 		System.out.println("瞬时流量单位==" + sslldw);
-		String ssllT = NumberBytes.scaleFloat(NumberBytes.hexStrToFloat(ssllH + ssllL), 3) + " " + getSsllDw(sslldw);
+		String ssllT = NumberBytes.scaleString(NumberBytes.scaleFloat(NumberBytes.hexStrToFloat(ssllH + ssllL), 3) + "", 3) + " " + getSsllDw(sslldw);
 		mParam1.setText(ssllT);
 		// 正向，反向累积单位
 		String ljdw = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
@@ -557,13 +557,7 @@ public class SNRMainActivity extends BaseActivity {
 			if (AppStaticVar.isSNRMainPause) {
 				AppStaticVar.mObservable.notifyObservers();
 			} else {
-				new Handler().postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						startReadParam();
-					}
-				}, 100);
+				startReadParam();
 			}
 			break;
 		case Constans.CONNECT_IS_CLOSED:
@@ -576,13 +570,7 @@ public class SNRMainActivity extends BaseActivity {
 			if (AppStaticVar.isSNRMainPause) {
 				AppStaticVar.mObservable.notifyObservers();
 			} else {
-				new Handler().postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						startReadParam();
-					}
-				}, 100);
+				startReadParam();
 			}
 			break;
 		case Constans.TIME_OUT:
@@ -593,13 +581,7 @@ public class SNRMainActivity extends BaseActivity {
 			}
 			if (!AppStaticVar.isSNRMainPause) {
 				showToast(getResources().getString(R.string.string_error_msg3));
-				new Handler().postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						startReadParam();
-					}
-				}, 100);
+				startReadParam();
 			} else {
 				AppStaticVar.mObservable.notifyObservers();
 			}
@@ -614,13 +596,7 @@ public class SNRMainActivity extends BaseActivity {
 
 	@Override
 	public void reconnectSuccss() {
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				startReadParam();
-			}
-		}, 100);
+		startReadParam();
 	}
 
 	@Override
