@@ -176,7 +176,7 @@ public abstract class BaseActivity extends Activity {
 	}
 
 	public void showProgressDialog(String msg) {
-		showProgressDialog(msg, false);
+		showProgressDialog(msg, true);
 	}
 
 	public void showProgressDialog(boolean isCancel) {
@@ -337,6 +337,7 @@ public abstract class BaseActivity extends Activity {
 					hideDialog();
 					break;
 				case R.id.btnOk:
+					AppStaticVar.isExit = true;
 					AppUtil.closeBluetooth();
 					ActivityManager.getInstances().finishAll();
 					System.exit(0);

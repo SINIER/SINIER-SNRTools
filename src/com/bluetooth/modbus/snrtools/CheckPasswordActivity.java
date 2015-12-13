@@ -65,6 +65,8 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 	/** 显示参数的数量 */
 	private int mCount = 0;
 	private boolean flag = false;
+	/** 判断当前页面是否已经发送过命令请求 */
+	private boolean hasSend = false;
 	private PopupWindow mPop;
 	private AbHorizontalProgressBar mAbProgressBar;
 	// 最大100
@@ -93,7 +95,6 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		setListeners();
 		AppStaticVar.mObservable.addObserver(this);
 		showProgressDialog(getResources().getString(R.string.string_tips_msg11));
-		// startReadParam();
 	}
 
 	@Override
@@ -376,7 +377,8 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		});
 	}
 
-	private void startReadParam() {
+	private synchronized void startReadParam() {
+		hasSend = true;
 		mThread = new Thread(new Runnable() {
 
 			@Override
@@ -398,6 +400,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 					break;
 				case Constans.NO_DEVICE_CONNECTED:
 					System.out.println("=====参数没有设备连接");
+					showConnectDevice();
 					break;
 				case Constans.DEVICE_RETURN_MSG:
 					hideProgressDialog();
@@ -2485,9 +2488,11 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.minValue = 0;
 		parameter.valueIn = Long.parseLong(param, 16);
 		parameter.value = Long.parseLong(param, 16) + "";
-//		parameter.point = 5;
-//		parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10, parameter.point);
-//		parameter.value = String.format("%." + parameter.point + "f", (Double) parameter.valueIn);
+		// parameter.point = 5;
+		// parameter.valueIn = Long.parseLong(param, 16) / Math.pow(10,
+		// parameter.point);
+		// parameter.value = String.format("%." + parameter.point + "f",
+		// (Double) parameter.valueIn);
 		mList.add(parameter);
 		/********************************** 参数59--电流零点修正 **************************************/
 		parameter = new Parameter();
@@ -2537,23 +2542,29 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		parameter.valueIn = NumberBytes.hexStrToLong(param1 + param);
 		parameter.value = NumberBytes.hexStrToLong(param1 + param) + "";
 		mList.add(parameter);
-//		/********************************** 参数62--转换器密码 **************************************/
-//		parameter = new Parameter();
-//		parameter.address = NumberBytes.padLeft(Integer.toHexString(paramIndex), 4, '0');// parameter.address
-//																							// =
-//																							// "0046";
-//		param = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
-//		param1 = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
-//		System.out.println("参数" + paramCountLabel++ + "--转换器密码==" + NumberBytes.hexStrToLong(param1 + param));
-//		parameter.count = "0002";
-//		parameter.name = getResources().getString(R.string.string_param_label62);
-//		parameter.type = 3;
-//		parameter.maxValue = 999999;
-//		parameter.minValue = 0;
-//		parameter.valueIn = NumberBytes.hexStrToLong(param1 + param);
-//		parameter.value = NumberBytes.hexStrToLong(param1 + param) + "";
-//		Constans.PasswordLevel.LEVEL_4 = NumberBytes.hexStrToLong(param1 + param);
-//		mList.add(parameter);
+		// /********************************** 参数62--转换器密码
+		// **************************************/
+		// parameter = new Parameter();
+		// parameter.address =
+		// NumberBytes.padLeft(Integer.toHexString(paramIndex), 4, '0');//
+		// parameter.address
+		// // =
+		// // "0046";
+		// param = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		// param1 = msg.substring(6 + 4 * paramIndex++, 6 + 4 * paramIndex);
+		// System.out.println("参数" + paramCountLabel++ + "--转换器密码==" +
+		// NumberBytes.hexStrToLong(param1 + param));
+		// parameter.count = "0002";
+		// parameter.name =
+		// getResources().getString(R.string.string_param_label62);
+		// parameter.type = 3;
+		// parameter.maxValue = 999999;
+		// parameter.minValue = 0;
+		// parameter.valueIn = NumberBytes.hexStrToLong(param1 + param);
+		// parameter.value = NumberBytes.hexStrToLong(param1 + param) + "";
+		// Constans.PasswordLevel.LEVEL_4 = NumberBytes.hexStrToLong(param1 +
+		// param);
+		// mList.add(parameter);
 		/********************************** 参数62--模拟输出 **************************************/
 		parameter = new Parameter();
 		parameter.address = NumberBytes.padLeft(Integer.toHexString(paramIndex), 4, '0');// parameter.address
@@ -2614,12 +2625,12 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		selector.name = "5m/s";
 		selector.value = "0004";
 		selectorList.add(selector);
-		
+
 		selector = new Selector();
 		selector.name = "10m/s";
 		selector.value = "0005";
 		selectorList.add(selector);
-		
+
 		selector = new Selector();
 		selector.name = "15m/s";
 		selector.value = "0006";
@@ -2661,6 +2672,26 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 		// mViewCheckPsd.setVisibility(View.VISIBLE);
 		// setTitleContent("密码校验");
 		super.onResume();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				while (!hasSend) {
+					System.out.println("密码页主动开始发送命令");
+					startReadParam();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 
 	@Override
@@ -2669,6 +2700,7 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 			mViewCheckPsd.setVisibility(View.VISIBLE);
 			setTitleContent(getResources().getString(R.string.string_title3));
 			mViewSetParam.setVisibility(View.GONE);
+			hasSend = false;
 		}
 		super.onPause();
 	}
@@ -2758,7 +2790,10 @@ public class CheckPasswordActivity extends BaseActivity implements Observer {
 			System.out.println("-------");
 			showProgressDialog(getResources().getString(R.string.string_tips_msg11));
 		} else {
-			startReadParam();
+			if (!hasSend) {
+				System.out.println("主页面通知密码页开始发送命令");
+				startReadParam();
+			}
 		}
 	}
 

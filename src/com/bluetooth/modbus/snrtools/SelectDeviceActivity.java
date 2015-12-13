@@ -436,6 +436,10 @@ public class SelectDeviceActivity extends BaseActivity
 
 	private void searchDevice()
 	{
+		if(AppStaticVar.mBtAdapter == null)
+		{
+			return;
+		}
 		if (AppStaticVar.mBtAdapter.isDiscovering())
 		{
 			AppStaticVar.mBtAdapter.cancelDiscovery();
@@ -509,6 +513,10 @@ public class SelectDeviceActivity extends BaseActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
+			if (intent == null)
+			{
+				return;
+			}
 			String action = intent.getAction();
 			if (BluetoothDevice.ACTION_FOUND.equals(action))
 			{

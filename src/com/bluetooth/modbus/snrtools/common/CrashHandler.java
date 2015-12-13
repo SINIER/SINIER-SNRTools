@@ -120,7 +120,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			cause = cause.getCause();
 		}
 		printWriter.close();
-		String result = writer.toString();
+		String result = (infosJson==null?"":infosJson.toString())+ writer.toString();
 		AppUtil.sendEmail("snrtools@163.com", "qpqcodonecjaqlzj", "snrtools@163.com",
 				"805639160@qq.com", "仪表助手错误日志", result);
 		// 保存日志文件

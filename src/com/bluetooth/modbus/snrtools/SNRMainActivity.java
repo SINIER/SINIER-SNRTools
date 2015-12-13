@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Xml;
@@ -44,8 +45,9 @@ public class SNRMainActivity extends BaseActivity {
 			mParam7;
 	private NoFocuseTextview mTvAlarm;
 	private View mViewMore;
-	private boolean isPause = false;
 	private boolean isSetting = false;
+	/** 是否已经有命令发送*/
+	private boolean hasSend = false;
 	private PopupWindow mPop;
 	private AbHorizontalProgressBar mAbProgressBar;
 	// 最大100
@@ -72,7 +74,6 @@ public class SNRMainActivity extends BaseActivity {
 	public void rightButtonOnClick(int id) {
 		switch (id) {
 			case R.id.btnRight1 :
-				isPause = true;
 				isSetting = true;
 				showProgressDialog(getResources().getString(R.string.string_progressmsg1));
 				break;
@@ -87,7 +88,9 @@ public class SNRMainActivity extends BaseActivity {
 
 			@Override
 			public void run() {
-				if (!isPause) {
+				System.out.println("====主页面开始恢复==pause状态"+AppStaticVar.isSNRMainPause);
+				if (!AppStaticVar.isSNRMainPause) {
+					hasSend = true;
 					ModbusUtils.readStatus(mContext.getClass().getSimpleName(),
 							mInnerHandler);
 				}
@@ -561,7 +564,8 @@ public class SNRMainActivity extends BaseActivity {
 				break;
 			case Constans.NO_DEVICE_CONNECTED :
 				System.out.println(name+"连接失败=====");
-				if (isPause) {
+				hasSend = false;
+				if (AppStaticVar.isSNRMainPause ) {
 					AppStaticVar.mObservable.notifyObservers();
 				} else {
 					showConnectDevice();
@@ -569,8 +573,9 @@ public class SNRMainActivity extends BaseActivity {
 				break;
 			case Constans.DEVICE_RETURN_MSG :
 				System.out.println(name+"收到数据=====" + msg.obj.toString());
+				hasSend = false;
 				dealReturnMsg(msg.obj.toString());
-				if (isPause) {
+				if (AppStaticVar.isSNRMainPause ) {
 					AppStaticVar.mObservable.notifyObservers();
 				} else {
 					startReadParam();
@@ -578,11 +583,12 @@ public class SNRMainActivity extends BaseActivity {
 				break;
 			case Constans.CONNECT_IS_CLOSED :
 				System.out.println(name+"连接关闭=====");
-				isPause = true;
+				hasSend = false;
 				showConnectDevice();
 			case Constans.ERROR_START :
 				System.out.println(name+"接收数据错误=====");
-				if (isPause) {
+				hasSend = false;
+				if (AppStaticVar.isSNRMainPause ) {
 					AppStaticVar.mObservable.notifyObservers();
 				} else {
 					startReadParam();
@@ -590,11 +596,16 @@ public class SNRMainActivity extends BaseActivity {
 				break;
 			case Constans.TIME_OUT :
 				System.out.println(name+"连接超时=====");
+				hasSend = false;
 				if (mThread != null && !mThread.isInterrupted()) {
 					mThread.interrupt();
 				}
-				showToast(getResources().getString(R.string.string_error_msg3));
-				startReadParam();
+				if(!AppStaticVar.isSNRMainPause ){
+					showToast(getResources().getString(R.string.string_error_msg3));
+					startReadParam();
+				}else{
+					AppStaticVar.mObservable.notifyObservers();
+				}
 				break;
 		}
 	
@@ -606,21 +617,19 @@ public class SNRMainActivity extends BaseActivity {
 
 	@Override
 	public void reconnectSuccss() {
-		isPause = false;
 		startReadParam();
 	}
 
 	@Override
 	protected void onResume() {
-		isPause = false;
-		startReadParam();
 		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		isPause = true;
-		super.onPause();
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				startReadParam();
+			}
+		}, 1000);
 	}
 
 }

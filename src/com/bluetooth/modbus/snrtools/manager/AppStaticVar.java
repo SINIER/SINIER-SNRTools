@@ -40,4 +40,6 @@ public class AppStaticVar {
 	public static boolean isExit = false;
 	/** 用于通知密码页面开始发送指令*/
 	public static MyObservable mObservable;
+	public static boolean isSNRMainPause = false;
+	public static boolean isCheckPwdPause = false;
 }

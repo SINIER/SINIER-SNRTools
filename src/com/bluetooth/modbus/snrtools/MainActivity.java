@@ -25,7 +25,8 @@ public class MainActivity extends TabActivity
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_activity);
-
+		AppStaticVar.isSNRMainPause = false;
+		AppStaticVar.isCheckPwdPause = true;
 		Resources res = getResources(); // Resource object to get Drawables
 		final TabHost tabHost = getTabHost(); // The activity TabHost
 		TabHost.TabSpec spec; // Resusable TabSpec for each tab
@@ -49,14 +50,19 @@ public class MainActivity extends TabActivity
 			@Override
 			public void onTabChanged(String tabId)
 			{
+				System.out.println("=============²Ëµ¥ÇÐ»»");
 				if ("CheckPasswordActivity".equals(tabId))
 				{
+					AppStaticVar.isSNRMainPause = true;
+					AppStaticVar.isCheckPwdPause = false;
 					AppStaticVar.mObservable.notifyObservers("showProgress");
 					tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(Color.parseColor("#f2f2f2"));
 					tabHost.getTabWidget().getChildTabViewAt(1).setBackgroundColor(Color.parseColor("#2FB7E1"));
 				}
 				else
 				{
+					AppStaticVar.isSNRMainPause = false;
+					AppStaticVar.isCheckPwdPause = true;
 					tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(Color.parseColor("#2FB7E1"));
 					tabHost.getTabWidget().getChildTabViewAt(1).setBackgroundColor(Color.parseColor("#f2f2f2"));
 				}

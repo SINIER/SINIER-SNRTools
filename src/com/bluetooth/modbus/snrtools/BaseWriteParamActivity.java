@@ -114,6 +114,7 @@ public abstract class BaseWriteParamActivity extends BaseActivity {
 						break;
 					case Constans.CONNECT_IS_JIM :
 						showToast(msg.toString());
+						hideProgressDialog();
 						break;
 					case Constans.TIME_OUT :
 						System.out.println("=====写入参数连接超时");
